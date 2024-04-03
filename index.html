@@ -7,22 +7,53 @@
 			body {
 				all: unset;
 			}
+			.main-container {
+				max-width: 300px;
+				margin: 5rem auto;
+			}
+			.main-container .form-group {
+				display: flex;
+				justify-content: space-between;
+				margin-bottom: 1rem;
+			}
+			.main-container .form-group label {
+				width: 50%;
+			}
+			.main-container .form-group input {
+				width: 50%;
+			}
+			#message {
+				color: #FF0000;
+				margin-bottom: 1rem;
+			}
+			.btn-container {
+				text-align: center;
+			}
+			.maze-container {
+				text-align: center;
+				margin-bottom: 5rem;
+			}
 		</style>
 	</head>
 	<body>
-		<div>
-			<div>
+		<div class="main-container">
+			<h1>MAZE GENERATOR</h1>
+			<div class="form-group">
 				<label for="mazeRows">Rows</label>
 				<input type="number" id="mazeRows" min="2" max="50" />
 			</div>
-			<div>
+			<div class="form-group">
 				<label for="mazeCols">Columns</label>
 				<input type="number" id="mazeCols" min="2" max="50" />
 			</div>
             <div id="message"></div>
-			<button id="createBtn">Create maze</button>
+			<div class="btn-container">
+				<button id="createBtn">Create maze</button>
+			</div>
 		</div>
-		<canvas id="maze" width="1510" height="1510"></canvas>
+		<div class="maze-container">
+			<canvas id="maze" width="0" height="0"></canvas>
+		</div>
 	</body>
 	<script src="./maze.js"></script>
 	<script src="./script.js"></script>

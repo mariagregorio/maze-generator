@@ -3,10 +3,16 @@ var WALL_SIZE = 4
 var BOARD_COLOR = "#D0ECE7"
 var WALL_COLOR = "#117A65"
 
-let currentX = 0
-let currentY = WALL_SIZE * 2
+let currentX
+let currentY
 
-var ctx = document.getElementById("maze").getContext("2d")
+const canvas = document.getElementById("maze")
+const ctx = canvas.getContext("2d")
+
+const resetMazeCanvas = () => {
+	currentX = 0
+	currentY = WALL_SIZE * 2
+}
 
 const drawBoard = (rows, cols, cellSize, wallSize) => {
 	ctx.fillStyle = BOARD_COLOR
@@ -65,6 +71,11 @@ const drawMazeWalls = (cellSize, wallSize, maze) => {
 	}
 }
 
+const resizeCanvas = (rows, cols) => {
+	canvas.width = cols * CELL_SIZE + WALL_SIZE;
+	canvas.height = rows * CELL_SIZE + WALL_SIZE * 2;
+}
+
 const rowsInput = document.getElementById("mazeRows")
 const colsInput = document.getElementById("mazeCols")
 const createBtn = document.getElementById("createBtn")
@@ -78,6 +89,8 @@ createBtn.addEventListener("click", (_e) => {
 		const message = document.createTextNode("Rows and columns number must be between 2 and 50.")
 		messageElement.appendChild(message)
 	} else {
+		resizeCanvas(rows, cols)
+		resetMazeCanvas()
 		const maze = generateMaze(rows, cols)
 		drawBoard(rows, cols, CELL_SIZE, WALL_SIZE)
 		drawMazeWalls(CELL_SIZE, WALL_SIZE, maze)
