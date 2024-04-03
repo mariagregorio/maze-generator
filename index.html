@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>maze generator</title>
-        <style>
-            body {
-                all: unset;
-            }
-        </style>
-    </head>
-    <body>
-        <canvas id="maze" width="500" height="500"></canvas>
-    </body>
-    <script src="./maze.js"></script>
-    <script src="./script.js"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<title>maze generator</title>
+		<style>
+			body {
+				all: unset;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<div>
+				<label for="mazeRows">Rows</label>
+				<input type="number" id="mazeRows" min="2" max="50" />
+			</div>
+			<div>
+				<label for="mazeCols">Columns</label>
+				<input type="number" id="mazeCols" min="2" max="50" />
+			</div>
+            <div id="message"></div>
+			<button id="createBtn">Create maze</button>
+		</div>
+		<canvas id="maze" width="1510" height="1510"></canvas>
+	</body>
+	<script src="./maze.js"></script>
+	<script src="./script.js"></script>
 </html>

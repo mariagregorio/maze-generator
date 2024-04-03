@@ -1,24 +1,19 @@
-const mazeRows = 9
-const mazeCols = 15
-
-var cellSize = 30
-var wallSize = 4
-var boardColor = "#D0ECE7"
-var wallColor = "#117A65"
+var CELL_SIZE = 30
+var WALL_SIZE = 4
+var BOARD_COLOR = "#D0ECE7"
+var WALL_COLOR = "#117A65"
 
 let currentX = 0
-let currentY = wallSize * 2
-
-const maze = generateMaze(mazeRows, mazeCols)
+let currentY = WALL_SIZE * 2
 
 var ctx = document.getElementById("maze").getContext("2d")
 
-const drawBoard = (rows, cols, cellSize) => {
-	ctx.fillStyle = boardColor
+const drawBoard = (rows, cols, cellSize, wallSize) => {
+	ctx.fillStyle = BOARD_COLOR
 	ctx.fillRect(currentX, currentY - wallSize, cellSize * cols, cellSize * rows)
-	ctx.fillStyle = wallColor
+	ctx.fillStyle = WALL_COLOR
 	ctx.fillRect(currentX, currentY - wallSize * 2, cellSize * cols, wallSize)
-	ctx.fillStyle = wallColor
+	ctx.fillStyle = WALL_COLOR
 	ctx.fillRect(
 		currentX + cellSize * cols,
 		currentY - wallSize * 2,
@@ -27,18 +22,18 @@ const drawBoard = (rows, cols, cellSize) => {
 	)
 }
 
-const drawWalls = (cell, neighbors, position) => {
+const drawWalls = (cell, neighbors, position, cellSize, wallSize) => {
 	if (!cell.S && (!neighbors.S || !neighbors.S.N)) {
-		ctx.fillStyle = wallColor
+		ctx.fillStyle = WALL_COLOR
 		ctx.fillRect(position[0], position[1] + cellSize - wallSize, cellSize, wallSize)
 	}
 	if (!cell.W && (!neighbors.W || !neighbors.W.E)) {
-		ctx.fillStyle = wallColor
+		ctx.fillStyle = WALL_COLOR
 		ctx.fillRect(position[0], position[1] - wallSize, wallSize, cellSize + wallSize)
 	}
 }
 
-const cellNeighbors = (rowI, colI) => {
+const cellNeighbors = (rowI, colI, maze) => {
 	const neighbors = {}
 	if (rowI > 0) {
 		neighbors.N = maze[rowI - 1][colI]
@@ -55,11 +50,11 @@ const cellNeighbors = (rowI, colI) => {
 	return neighbors
 }
 
-const drawMazeWalls = () => {
+const drawMazeWalls = (cellSize, wallSize, maze) => {
 	for (let i = 0; i < maze.length; i++) {
 		for (let j = 0; j < maze[i].length; j++) {
-			const neighbors = cellNeighbors(i, j)
-			drawWalls(maze[i][j], neighbors, [currentX, currentY])
+			const neighbors = cellNeighbors(i, j, maze)
+			drawWalls(maze[i][j], neighbors, [currentX, currentY], cellSize, wallSize)
 			if (j === maze[i].length - 1) {
 				currentX = 0
 			} else {
@@ -70,5 +65,23 @@ const drawMazeWalls = () => {
 	}
 }
 
-drawBoard(mazeRows, mazeCols, cellSize)
-drawMazeWalls()
+const rowsInput = document.getElementById("mazeRows")
+const colsInput = document.getElementById("mazeCols")
+const createBtn = document.getElementById("createBtn")
+const messageElement = document.getElementById("message")
+
+createBtn.addEventListener("click", (_e) => {
+	const rows = Number(rowsInput.value);
+	const cols = Number(colsInput.value);
+	messageElement.replaceChildren()
+	if ((rows < 2 || rows > 50) || (cols < 2 || cols > 50)) {
+		const message = document.createTextNode("Rows and columns number must be between 2 and 50.")
+		messageElement.appendChild(message)
+	} else {
+		const maze = generateMaze(rows, cols)
+		drawBoard(rows, cols, CELL_SIZE, WALL_SIZE)
+		drawMazeWalls(CELL_SIZE, WALL_SIZE, maze)
+	}
+})
+
+
