@@ -91,7 +91,9 @@ createBtn.addEventListener("click", (_e) => {
 	} else {
 		resizeCanvas(rows, cols)
 		resetMazeCanvas()
-		const maze = generateMaze(rows, cols)
+		const mazeGenerator = new MazeGenerator(rows, cols)
+		mazeGenerator.generateMaze()
+		const maze = mazeGenerator.maze
 		drawBoard(rows, cols, CELL_SIZE, WALL_SIZE)
 		drawMazeWalls(CELL_SIZE, WALL_SIZE, maze)
 	}
